@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.HHTCompany.mapper.userMapper">
+
+	<resultMap id="userModel" type="com.HHTCompany.entity.user">
+		<result column="USERID" property="USERID" />
+		<result column="USERNAME" property="USERNAME" />
+		<result column="ROLEID" property="ROLEID" />
+		<result column="EMAIL" property="EMAIL" />
+		<result column="NUMBERPHONE" property="NUMBERPHONE" />
+		<result column="BIRTHDAY" property="BIRTHDAY" />
+	</resultMap>
+
+
+	<select id="getAllUser" resultMap="userModel">
+		SELECT
+		USERID,
+		USERNAME,
+		ROLEID,
+		EMAIL,
+		NUMBERPHONE,
+		BIRTHDAY
+		FROM F4_USER
+	</select>
+
+	<select id="getByContraint" resultMap="userModel">
+					SELECT userr.USERID, userr.USERNAME
+			   ,userr.NUMBERPHONE
+			   ,userr.EMAIL
+			   ,userr.BIRTHDAY
+			   ,userr.ROLEID
+		FROM F4_USER userr
+    	LEFT JOIN F4_Role rolee ON rolee.ROLEID = userr.ROLEID   
+
+		<if test="userName != null and roleIdList.isEmpty()">
+			WHERE UPPER(userr.USERNAME) LIKE UPPER('%'+ #{userName} +'%')
+		</if>
+
+		<if test="!roleIdList.isEmpty() and userName != null">
+			WHERE UPPER(userr.USERNAME) LIKE UPPER('%' + #{userName} + '%')
+			AND
+			<foreach item="roleId" collection="roleIdList"
+				open="userr.ROLEID IN (" separator="," close=")">
+				#{roleId}
+			</foreach>
+		</if>
+
+		<if test="!roleIdList.isEmpty() and userName == null ">
+			WHERE
+			<foreach item="roleId" collection="roleIdList"
+				open="userr.ROLEID IN (" separator="," close=")">
+				#{roleId}
+			</foreach>
+		</if>
+
+
+	</select>
+</mapper>

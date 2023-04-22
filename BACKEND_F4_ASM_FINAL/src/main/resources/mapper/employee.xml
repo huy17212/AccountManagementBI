@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.HHTCompany.mapper.employeeMapper">
+
+	<resultMap id="employee"
+		type="com.HHTCompany.entity.employee">
+		<result column="MANV" property="MANV" />
+		<result column="TENV" property="TENV" />
+		<result column="DIACHI" property="DIACHI" />
+		<result column="GMAIL" property="GMAIL" />
+		<result column="PHONE" property="PHONE" />
+		<result column="AVATAR" property="AVATAR" />
+		<result column="BIRTHDAY" property="BIRTHDAY" />
+		<result column="ISUSE" property="ISUSE" />
+		<result column="ROLEID" property="ROLEID" />
+	</resultMap>
+
+	<select id="getEmployee" resultMap="employee">
+		SELECT 
+		MANV
+		, TENV
+		, DIACHI
+		, GMAIL
+		, PHONE
+		, AVATAR
+		, BIRTHDAY
+		, ISUSE
+		, ROLEID
+		FROM F4_Employee
+		WHERE 1 = 1
+	</select>
+
+	<select id="getEmployeeById" resultMap="employee">
+		SELECT 
+		MANV
+		, TENV
+		, DIACHI
+		, GMAIL
+		, PHONE
+		, AVATAR
+		, BIRTHDAY
+		, ISUSE
+		, ROLEID
+		FROM F4_Employee
+		WHERE MANV = #{id}
+	</select>
+
+	<insert id="insertEmployee" keyProperty="MANV">
+		INSERT INTO F4_Employee
+		VALUES
+		(#{MANV},
+		#{TENV},
+		#{DIACHI},
+		#{GMAIL},
+		#{PHONE},
+		#{AVATAR},
+		#{BIRTHDAY},
+		#{ISUSE},
+		#{ROLEID})
+	</insert>
+	
+	<delete id="deleteEmployee">
+		DELETE FROM F4_Employee WHERE MANV = #{id};
+	</delete>
+	
+	<update id="updateEmployee" keyProperty="MANV">
+		UPDATE F4_Employee SET 
+		TENV = #{TENV}
+		, DIACHI = #{DIACHI}
+		, GMAIL = #{GMAIL}
+		, PHONE = #{PHONE}
+		, AVATAR = #{AVATAR}
+		, BIRTHDAY = #{BIRTHDAY}
+		, ISUSE = #{ISUSE}
+		, ROLEID = #{ROLEID}
+		WHERE  MANV = #{MANV};
+	</update>
+
+</mapper>

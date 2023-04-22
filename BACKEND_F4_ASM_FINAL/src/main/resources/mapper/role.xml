@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.HHTCompany.mapper.roleMapper">
+
+	<resultMap id="role" type="com.HHTCompany.entity.role">
+		<result column="ROLEID" property="ROLEID" />
+		<result column="TENROLE" property="TENROLE" />
+		<result column="ISUSE" property="ISUSE" />
+		<result column="DES" property="DES" />
+	</resultMap>
+
+	<select id="getAllRole" resultMap="role">
+		SELECT
+		ROLEID
+		, TENROLE,
+		DES,
+		ISUSE
+		FROM F4_Role
+		WHERE 1 = 1
+	</select>
+
+	<select id="getCountByRoleId" resultType="hashmap">
+		select
+		F4_ROLE.TENROLE,COUNT(*) as 'COUNT' FROM F4_Employee
+		LEFT JOIN F4_ROLE ON F4_ROLE.ROLEID = F4_Employee.ROLEID
+		GROUP BY F4_Employee.ROLEID, F4_ROLE.TENROLE
+	</select>
+	
+	<delete id="deleteRole">
+		DELETE 
+			FROM F4_ROLE 
+		WHERE 
+			ROLEID = #{RoleId}
+	</delete>
+	
+	<insert id="postNewRole">
+		INSERT INTO F4_ROLE
+			 (ROLEID,
+			 TENROLE,
+		     DES,
+			 ISUSE)
+		VALUES
+		(
+			#{ROLEID},
+			#{TENROLE},
+			#{DES},
+			#{ISUSE}
+		);
+	</insert>
+	
+	<update id="updateRole">
+		UPDATE F4_ROLE
+		SET TENROLE = #{TENROLE},
+			DES = #{DES},
+			ISUSE = #{ISUSE}
+		WHERE ROLEID = #{ROLEID}
+	</update>
+	
+</mapper>
